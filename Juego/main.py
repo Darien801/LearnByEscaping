@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 
 # =========================
 # VENTANA PRINCIPAL
@@ -15,13 +16,30 @@ ventana.columnconfigure(0, weight=1)
 # FUNCIONES
 # =========================
 def jugar():
-    print("Iniciar juego")
-
+    nombre = PedirNombre(ventana)
 def instrucciones():
     print("Mostrar instrucciones")
 
 def salir():
     ventana.destroy()
+
+def PedirNombre(ventana_padre):
+    global nombre
+    ventana2 = Toplevel(ventana_padre)
+    ventana2.title("Nombre")
+    ventana2.geometry("400x300")
+    ventana2.config(bg="#111111")
+    nombre = Entry(ventana2, font=("Arial", 16), width=20)
+    nombre.pack(pady=20)
+    def validarNombre():
+        if nombre.get() == "":
+            messagebox.showerror("Error", "Debe ingresar un nombre")
+            ventana2.destroy()
+            return
+        else:
+            """ Funcion para empezar a jugar """
+    btn_guardar = Button(ventana2, text="Guardar", font=("Arial", 16), width=20, bg="#2E8B57", fg="white", cursor="hand2", command=validarNombre)
+    btn_guardar.pack(pady=20)
 
 # =========================
 # TITULO
