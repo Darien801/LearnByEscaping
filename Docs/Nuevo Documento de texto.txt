@@ -1,0 +1,16 @@
+MENÚ
+ ↓
+INICIO DEL JUEGO
+ ↓
+Mover personaje
+ ↓
+Llegar a puerta
+ ↓
+Pregunta matemática
+ ↓
+Correcta → siguiente nivel
+Incorrecta → pierde intento
+ ↓
+Nivel final
+ ↓
+ESCAPAR
