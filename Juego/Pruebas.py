@@ -1,16 +1,28 @@
 from tkinter import *
-from tkinter import messagebox
 
 # =========================
-# FUNCIONES
+# VENTANA PRINCIPAL
 # =========================
+
+ventana = Tk()
+ventana.title("Juego")
+ventana.geometry("500x400")
+
+
+
+# =========================
+# VENTANA GANAR
+# =========================
+
 def mostrar_ventana_ganar():
 
     ventana_ganar = Toplevel()
     ventana_ganar.title("¡Ganaste!")
     ventana_ganar.geometry("800x600")
     ventana_ganar.config(bg="#111111")
+    ventana_ganar.resizable(False, False)
 
+    # Emoji/Trofeo
     trofeo = Label(
         ventana_ganar,
         text="🏆",
@@ -20,6 +32,7 @@ def mostrar_ventana_ganar():
     )
     trofeo.pack(pady=(40, 10))
 
+    # Texto principal
     Ganaste = Label(
         ventana_ganar,
         text="¡¡GANASTE!! 🥳",
@@ -29,6 +42,7 @@ def mostrar_ventana_ganar():
     )
     Ganaste.pack(pady=10)
 
+    # Subtítulo
     subtitulo = Label(
         ventana_ganar,
         text="Eres increíble 😎🔥",
@@ -38,12 +52,15 @@ def mostrar_ventana_ganar():
     )
     subtitulo.pack(pady=10)
 
+    # Botón cerrar
     boton_cerrar = Button(
         ventana_ganar,
         text="Cerrar",
         font=("Arial", 16, "bold"),
         bg="#00cc66",
         fg="white",
+        activebackground="#00ff88",
+        activeforeground="black",
         padx=20,
         pady=10,
         bd=0,
@@ -52,13 +69,20 @@ def mostrar_ventana_ganar():
     )
     boton_cerrar.pack(pady=40)
 
+
+# =========================
+# VENTANA PERDER
+# =========================
+
 def mostrar_ventana_perder():
 
     ventana_perder = Toplevel()
     ventana_perder.title("Perdiste...")
     ventana_perder.geometry("800x600")
     ventana_perder.config(bg="#111111")
+    ventana_perder.resizable(False, False)
 
+    # Emoji triste
     triste = Label(
         ventana_perder,
         text="😔",
@@ -68,6 +92,7 @@ def mostrar_ventana_perder():
     )
     triste.pack(pady=(40, 10))
 
+    # Texto principal
     Perdiste = Label(
         ventana_perder,
         text="¡¡PERDISTE!! 💀",
@@ -77,6 +102,7 @@ def mostrar_ventana_perder():
     )
     Perdiste.pack(pady=10)
 
+    # Subtítulo
     subtitulo = Label(
         ventana_perder,
         text="Mejor suerte para la próxima 👍",
@@ -86,12 +112,15 @@ def mostrar_ventana_perder():
     )
     subtitulo.pack(pady=10)
 
+    # Botón cerrar
     boton_cerrar = Button(
         ventana_perder,
         text="Intentar otra vez",
         font=("Arial", 16, "bold"),
         bg="#ff4444",
         fg="white",
+        activebackground="#ff6666",
+        activeforeground="black",
         padx=20,
         pady=10,
         bd=0,
@@ -100,93 +129,31 @@ def mostrar_ventana_perder():
     )
     boton_cerrar.pack(pady=40)
 
-def jugar():
-    ventana.withdraw()
-    ventana_validar = Toplevel()
-    ventana_validar.title("Nombre")
-    ventana_validar.geometry("400x300")
-    ventana_validar.config(bg="#111111")
-    lbl_nombre = Label(ventana_validar, text="Ingresa tu nombre:", font=("Arial", 16), bg="#111111", fg="white")
-    lbl_nombre.pack(pady=20)
-    e_nombre = Entry(ventana_validar, font=("Arial", 16), width=20)
-    e_nombre.pack(pady=20)
-    def validarNombre():
-        if e_nombre.get() == "":
-            messagebox.showerror("Error", "Debe ingresar un nombre")
-            return
-        else:
-            """ Funcion llamar a las siguiente ventana """
-            
-            
-            
-    btn_guardar = Button(ventana_validar, text="Guardar", font=("Arial", 16), width=20, bg="#2E8B57", fg="white", cursor="hand2", command=validarNombre)
-    btn_guardar.pack(pady=20)
-
-
-def mostrar_instrucciones():
-    return
-
-def salir():
-    ventana.destroy()
-
-def PedirNombre(ventana_padre):
-    return
-
-
-#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # =========================
-# VENTANA PRINCIPAL
+# BOTONES PRINCIPALES
 # =========================
-ventana = Tk()
-ventana.title("Learn by Escaping")
-ventana.geometry("800x600")
-ventana.config(bg="#111111")
-# Centrar contenido
 
 titulo = Label(
     ventana,
-    text="Learn by Escaping",
-    font=("Arial", 32, "bold"),
-    fg="white",
-    bg="#111111"
+    text="SIMULADOR DE RESULTADO"
 )
-titulo.pack(pady=60)
+titulo.pack(pady=40)
 
-btn_jugar = Button(
+btn_ganar = Button(
     ventana,
-    text="Jugar",
-    font=("Arial", 16),
-    width=20,
-    bg="#2E8B57",
-    fg="white",
-    cursor="hand2",
-    command=jugar
+    text="Ganar",
+    command=mostrar_ventana_ganar
 )
-btn_jugar.pack(pady=20)
+btn_ganar.pack(pady=20)
 
-btn_instrucciones = Button(
+btn_perder = Button(
     ventana,
-    text="Instrucciones",
-    font=("Arial", 16),
-    width=20,
-    bg="#4682B4",
-    fg="white",
-    cursor="hand2",
-    command=mostrar_instrucciones
+    text="Perder",
+    command=mostrar_ventana_perder
 )
-btn_instrucciones.pack(pady=20)
+btn_perder.pack(pady=20)
 
-btn_salir = Button(
-    ventana,
-    text="Salir",
-    font=("Arial", 16),
-    width=20,
-    bg="#B22222",
-    fg="white",
-    cursor="hand2",
-    command=salir
-)
-btn_salir.pack(pady=20)
+
 
 ventana.mainloop()
