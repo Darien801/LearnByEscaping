@@ -1,104 +1,149 @@
 from tkinter import *
 from tkinter import messagebox
 
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#Niveles
+ANCHO_BLOQUE = 40
+FILAS = 10
+COLUMNAS = 15
+Nivel_actual = 1
+
+# Alto = 40*10 = 400
+# Ancho = 40*15 = 600
+
+# =========================
+# MAPAS
+# =========================
+
+
+MAPAS = {
+    1: [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,1,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ],
+    2: [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,1,0,0,0,0,0,2,1],
+        [1,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ],
+    3: [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
+        [1,0,0,1,1,1,1,1,1,1,1,1,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
+        [1,1,1,1,1,1,1,1,0,0,0,1,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1,0,0,1],
+        [1,0,1,1,1,1,1,1,1,1,1,1,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ],
+    4: [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,1,0,0,0,0,0,0,2,1],
+        [1,0,1,1,1,0,1,0,1,1,1,1,1,0,1],
+        [1,0,1,0,0,0,1,0,0,0,0,0,1,0,1],
+        [1,0,1,0,1,1,1,1,1,1,1,0,1,0,1],
+        [1,0,1,0,1,0,0,0,0,0,1,0,1,0,1],
+        [1,0,0,0,1,0,1,1,1,0,1,0,1,0,1],
+        [1,1,1,1,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,0,0,0,0,0,0,1,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ],
+    5: [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
+        [1,0,1,1,1,1,1,1,1,1,1,1,1,0,1],
+        [1,0,1,0,0,0,0,0,0,0,0,0,1,0,1],
+        [1,0,1,0,1,1,1,1,1,1,1,0,1,0,1],
+        [1,0,1,0,1,0,0,0,0,0,1,0,1,0,1],
+        [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1],
+        [1,0,1,0,1,0,1,0,0,0,1,0,1,0,1],
+        [1,0,0,0,0,0,1,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ],
+    6: [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,1,0,0,0,0,0,0,2,1],
+        [1,0,1,1,1,0,1,1,1,1,1,1,1,0,1],
+        [1,0,0,0,1,0,0,0,0,0,0,0,1,0,1],
+        [1,1,1,0,1,1,1,1,1,1,1,0,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,1,0,1,0,1],
+        [1,0,1,1,1,1,1,1,1,0,1,0,0,0,1],
+        [1,0,1,0,0,0,0,0,1,0,1,1,1,1,1],
+        [1,0,0,0,1,1,1,0,0,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ],
+    7: [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
+        [1,1,1,1,1,1,1,1,0,1,0,1,1,1,1],
+        [1,0,0,0,0,0,0,1,0,1,0,1,0,0,1],
+        [1,0,1,1,1,1,0,1,0,1,0,1,0,0,1],
+        [1,0,1,0,0,1,0,1,0,0,0,0,0,0,1],
+        [1,0,1,0,0,1,0,1,1,1,1,1,1,0,1],
+        [1,0,1,1,0,1,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,1,1,1,1,1,1,1,1,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ],
+    8: [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
+        [1,0,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,1,0,1,1,1,1,1,1,1,1,1,0,1],
+        [1,0,1,0,1,0,0,0,0,0,0,0,1,0,1],
+        [1,0,1,0,1,0,1,1,1,1,1,0,1,0,1],
+        [1,0,1,0,0,0,1,0,0,0,1,0,1,0,1],
+        [1,0,0,0,1,1,1,0,1,0,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ],
+    9: [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,1,0,0,0,2,1],
+        [1,1,1,1,1,1,1,0,0,1,0,1,1,1,1],
+        [1,0,0,0,0,0,1,0,0,1,0,1,0,0,1],
+        [1,0,1,1,1,0,1,1,0,1,0,1,0,0,1],
+        [1,0,1,0,1,0,0,0,0,1,0,0,0,0,1],
+        [1,0,1,0,1,1,0,1,0,1,1,1,1,0,1],
+        [1,0,1,0,0,1,0,1,0,0,0,0,1,0,1],
+        [1,0,0,0,0,0,0,1,1,1,1,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ],
+    10: [
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,1,0,0,0,1,0,0,0,1,0,0,2,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1,1,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ]
+}
+
 # =========================
 # FUNCIONES
 # =========================
-def mostrar_ventana_ganar():
 
-    ventana_ganar = Toplevel()
-    ventana_ganar.title("¡Ganaste!")
-    ventana_ganar.geometry("800x600")
-    ventana_ganar.config(bg="#111111")
-
-    trofeo = Label(
-        ventana_ganar,
-        text="🏆",
-        font=("Arial", 120),
-        bg="#111111",
-        fg="gold"
-    )
-    trofeo.pack(pady=(40, 10))
-
-    Ganaste = Label(
-        ventana_ganar,
-        text="¡¡GANASTE!! 🥳",
-        font=("Arial", 36, "bold"),
-        fg="#00ff88",
-        bg="#111111"
-    )
-    Ganaste.pack(pady=10)
-
-    subtitulo = Label(
-        ventana_ganar,
-        text="Eres increíble 😎🔥",
-        font=("Arial", 20),
-        fg="white",
-        bg="#111111"
-    )
-    subtitulo.pack(pady=10)
-
-    boton_cerrar = Button(
-        ventana_ganar,
-        text="Cerrar",
-        font=("Arial", 16, "bold"),
-        bg="#00cc66",
-        fg="white",
-        padx=20,
-        pady=10,
-        bd=0,
-        cursor="hand2",
-        command=ventana_ganar.destroy
-    )
-    boton_cerrar.pack(pady=40)
-
-def mostrar_ventana_perder():
-
-    ventana_perder = Toplevel()
-    ventana_perder.title("Perdiste...")
-    ventana_perder.geometry("800x600")
-    ventana_perder.config(bg="#111111")
-
-    triste = Label(
-        ventana_perder,
-        text="😔",
-        font=("Arial", 120),
-        bg="#111111",
-        fg="#ff4444"
-    )
-    triste.pack(pady=(40, 10))
-
-    Perdiste = Label(
-        ventana_perder,
-        text="¡¡PERDISTE!! 💀",
-        font=("Arial", 36, "bold"),
-        fg="#ff4444",
-        bg="#111111"
-    )
-    Perdiste.pack(pady=10)
-
-    subtitulo = Label(
-        ventana_perder,
-        text="Mejor suerte para la próxima 👍",
-        font=("Arial", 20),
-        fg="white",
-        bg="#111111"
-    )
-    subtitulo.pack(pady=10)
-
-    boton_cerrar = Button(
-        ventana_perder,
-        text="Intentar otra vez",
-        font=("Arial", 16, "bold"),
-        bg="#ff4444",
-        fg="white",
-        padx=20,
-        pady=10,
-        bd=0,
-        cursor="hand2",
-        command=ventana_perder.destroy
-    )
-    boton_cerrar.pack(pady=40)
 
 def jugar():
     ventana.withdraw()
@@ -116,7 +161,7 @@ def jugar():
             return
         else:
             """ Funcion llamar a las siguiente ventana """
-            
+            mostrar_pregunta()
             
             
     btn_guardar = Button(ventana_validar, text="Guardar", font=("Arial", 16), width=20, bg="#2E8B57", fg="white", cursor="hand2", command=validarNombre)
@@ -129,8 +174,135 @@ def mostrar_instrucciones():
 def salir():
     ventana.destroy()
 
-def PedirNombre(ventana_padre):
-    return
+
+def mostrar_pregunta():
+    global Nivel_actual
+    with open("./Docs/Preguntas.txt" , "r" , encoding="utf-8") as archivo:
+        lista_lineas = archivo.readlines()
+        for linea in lista_lineas:
+            
+            datos = linea.strip().split("|")
+            
+            num_pregunta = int(datos[0])
+            if num_pregunta == Nivel_actual:
+            
+                pregunta = (datos[1])
+                res_correcta = int(datos[5])
+                
+                break
+    
+    ventana_pregunta = Toplevel()
+    ventana_pregunta.title(f"Pregunta {Nivel_actual}")
+    ventana_pregunta.geometry("500x400")
+    ventana_pregunta.config(bg="#111111")
+    
+    lbl_pregunta = Label(
+        ventana_pregunta,
+        text=pregunta,
+        font=("Arial", 16),
+        bg="#111111",
+        fg="white",
+        wraplength=450
+    )
+    lbl_pregunta.pack(pady=30)
+    
+    e_respuesta = Entry(
+    ventana_pregunta,
+    font=("Arial", 14),
+    bd=0,
+    width=25,
+    justify="center"
+    )
+    e_respuesta.pack(pady=20)
+    
+
+    def comparar():
+        res_usuario = int(e_respuesta.get())
+        if res_usuario == res_correcta:
+            print("Correcto")
+            # Mandar a llamar el siguiente nivel
+        else:
+            print("Respuesta incorrecta")
+    
+    btn_enviar = Button(
+        ventana_pregunta,
+        text="Enviar",
+        width=20,
+        font=("Arial", 12),
+        command=comparar
+    )
+    btn_enviar.pack(pady=10)
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+def mostrar_niveles():
+    #Destruir ventana validar
+    
+    global Nivel_actual
+    
+    ventana_mapa= Toplevel()
+    ventana_mapa.title(f"Nivel {Nivel_actual}")
+    ventana_mapa.geometry("600x400")
+    lienzo = Canvas(
+        ventana_mapa,
+        width=600,
+        height=400,
+        bg="#222425"
+        )
+    lienzo.pack()
+    
+    mapa = MAPAS[Nivel_actual]
+    for fila in range(10):
+            for  col in range(15):
+                celda = mapa[fila][col]
+                
+                x1 = col * 40 
+                y1 = fila * 40
+                x2 = x1 + 40
+                y2 = y1 + 40
+
+                # Pared
+                if celda == 1:
+                    lienzo.create_rectangle(
+                        x1, y1,
+                        x2, y2,
+                        fill="#1A202C",
+                        outline="#4A5568",
+                        width=1
+                    )
+                    
+                elif celda == 2:
+                    lienzo.create_rectangle(
+                        x1, y1,
+                        x2, y2,
+                        fill="#ECC94B",
+                        outline="#000000",
+                        width=1
+                    )
+                
+                
+                # Suelo
+                else:
+                    lienzo.create_rectangle(
+                        x1, y1,
+                        x2, y2,
+                        fill="#2D3748",
+                        outline="#4A5568",
+                        width=1
+                    )
+                    
+
+
+"""
+def cambiar_nivel():
+    global nivel_actual
+    nivel_actual += 1
+    if nivel_actual > 5:
+        nivel_actual = 1
+    dibuja_mapa()
+
+"""
+
 
 
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -190,3 +362,116 @@ btn_salir = Button(
 btn_salir.pack(pady=20)
 
 ventana.mainloop()
+
+
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#FUNCIONES QUE AUN NO VAMOS A USAR
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+"""
+
+def mostrar_ventana_ganar():
+
+    ventana_ganar = Toplevel()
+    ventana_ganar.title("¡Ganaste!")
+    ventana_ganar.geometry("800x600")
+    ventana_ganar.config(bg="#111111")
+
+    trofeo = Label(
+        ventana_ganar,
+        text="🏆",
+        font=("Arial", 120),
+        bg="#111111",
+        fg="gold"
+    )
+    trofeo.pack(pady=(40, 10))
+
+    Ganaste = Label(
+        ventana_ganar,
+        text="¡¡GANASTE!! 🥳",
+        font=("Arial", 36, "bold"),
+        fg="#00ff88",
+        bg="#111111"
+    )
+    Ganaste.pack(pady=10)
+
+    subtitulo = Label(
+        ventana_ganar,
+        text="Eres increíble 😎🔥",
+        font=("Arial", 20),
+        fg="white",
+        bg="#111111"
+    )
+    subtitulo.pack(pady=10)
+
+    boton_cerrar = Button(
+        ventana_ganar,
+        text="Cerrar",
+        font=("Arial", 16, "bold"),
+        bg="#00cc66",
+        fg="white",
+        padx=20,
+        pady=10,
+        bd=0,
+        cursor="hand2",
+        command=ventana_ganar.destroy
+    )
+    boton_cerrar.pack(pady=40)
+
+
+
+
+
+def mostrar_ventana_perder():
+
+    ventana_perder = Toplevel()
+    ventana_perder.title("Perdiste...")
+    ventana_perder.geometry("800x600")
+    ventana_perder.config(bg="#111111")
+
+    triste = Label(
+        ventana_perder,
+        text="😔",
+        font=("Arial", 120),
+        bg="#111111",
+        fg="#ff4444"
+    )
+    triste.pack(pady=(40, 10))
+
+    Perdiste = Label(
+        ventana_perder,
+        text="¡¡PERDISTE!! 💀",
+        font=("Arial", 36, "bold"),
+        fg="#ff4444",
+        bg="#111111"
+    )
+    Perdiste.pack(pady=10)
+
+    subtitulo = Label(
+        ventana_perder,
+        text="Mejor suerte para la próxima 👍",
+        font=("Arial", 20),
+        fg="white",
+        bg="#111111"
+    )
+    subtitulo.pack(pady=10)
+
+    boton_cerrar = Button(
+        ventana_perder,
+        text="Intentar otra vez",
+        font=("Arial", 16, "bold"),
+        bg="#ff4444",
+        fg="white",
+        padx=20,
+        pady=10,
+        bd=0,
+        cursor="hand2",
+        command=ventana_perder.destroy
+    )
+    boton_cerrar.pack(pady=40)
+
+
+
+"""
