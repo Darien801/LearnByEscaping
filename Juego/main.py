@@ -1,3 +1,4 @@
+
 from tkinter import *
 from tkinter import messagebox
 
@@ -8,7 +9,11 @@ ANCHO_BLOQUE = 40
 FILAS = 10
 COLUMNAS = 15
 Nivel_actual = 1
-
+avata_x_posicion = 1
+avata_y_posicion = 8
+avatar_id = None
+lienzo = None
+ventana_mapa = None
 # Alto = 40*10 = 400
 # Ancho = 40*15 = 600
 
@@ -161,8 +166,9 @@ def jugar():
             return
         else:
             """ Funcion llamar a las siguiente ventana """
-            mostrar_pregunta()
-            
+            """ mostrar_pregunta() """
+            mostrar_niveles()
+            ventana_validar.destroy()
             
     btn_guardar = Button(ventana_validar, text="Guardar", font=("Arial", 16), width=20, bg="#2E8B57", fg="white", cursor="hand2", command=validarNombre)
     btn_guardar.pack(pady=20)
@@ -173,6 +179,9 @@ def mostrar_instrucciones():
 
 def salir():
     ventana.destroy()
+
+
+
 
 
 def mostrar_pregunta():
@@ -219,10 +228,14 @@ def mostrar_pregunta():
     def comparar():
         res_usuario = int(e_respuesta.get())
         if res_usuario == res_correcta:
-            print("Correcto")
+            messagebox.showinfo("Correcto", "Respuesta correcta")
+            ventana_pregunta.destroy()
+            cambiar_nivel()
+            ventana_mapa.destroy()
             # Mandar a llamar el siguiente nivel
         else:
             print("Respuesta incorrecta")
+            messagebox.showerror("Error", "Respuesta incorrecta")
     
     btn_enviar = Button(
         ventana_pregunta,
@@ -236,10 +249,10 @@ def mostrar_pregunta():
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 def mostrar_niveles():
-    #Destruir ventana validar
-    
-    global Nivel_actual
-    
+    #Destruir ventana validar 
+    global Nivel_actual, avatar_id
+    global lienzo
+    global ventana_mapa
     ventana_mapa= Toplevel()
     ventana_mapa.title(f"Nivel {Nivel_actual}")
     ventana_mapa.geometry("600x400")
@@ -290,7 +303,53 @@ def mostrar_niveles():
                         outline="#4A5568",
                         width=1
                     )
-                    
+    """ Creacion del avatar """
+    avatar_x_pixel = avata_x_posicion * 40 + 20
+    avatar_y_pixel = avata_y_posicion * 40 + 20
+    # Dibujar círculo azul centrado en la celda
+    avatar_id = lienzo.create_oval(avatar_x_pixel - 15, avatar_y_pixel - 15, avatar_x_pixel + 15, avatar_y_pixel + 15, fill="blue", outline="black", width=2)
+    
+    ventana_mapa.bind("<KeyPress>", teclas)
+    ventana_mapa.focus_set()
+    
+def teclas(event):
+    dx = 0
+    dy = 0
+    if event.keysym=="Up":
+        dy = -1 
+    elif event.keysym=="Down":
+        dy = 1
+    elif event.keysym=="Left":
+        dx = -1
+    elif event.keysym=="Right":
+        dx = 1
+    if dx != 0 or dy != 0:
+        mover_avatar(dx,dy)
+    
+def mover_avatar(dx, dy):   
+    global avata_x_posicion
+    global avata_y_posicion
+    global avatar_id
+    mapa = MAPAS[Nivel_actual]
+    nueva_x = avata_x_posicion + dx
+    nueva_y = avata_y_posicion + dy
+    if 0 <= nueva_x < 15 and 0 <= nueva_y < 10 and mapa[nueva_y][nueva_x] != 1:
+        avata_x_posicion = nueva_x
+        avata_y_posicion = nueva_y
+        lienzo.move(avatar_id, dx * 40, dy * 40)
+        if mapa[nueva_y][nueva_x] == 2:
+            mostrar_pregunta()
+
+def cambiar_nivel():
+    global Nivel_actual
+    global avata_x_posicion
+    global avata_y_posicion
+    global ventana_mapa
+    Nivel_actual += 1
+    avata_x_posicion = 1
+    avata_y_posicion = 8
+    mostrar_niveles()
+    ventana_mapa.destroy()
 
 
 """
